@@ -2,6 +2,7 @@ import './App.css'
 import { useState, useEffect, useRef } from 'react'
 import Swiper from 'swiper';
 import { EffectFade, Mousewheel, Pagination } from 'swiper/modules';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'; // Importando os ícones de seta
 
 function FadeInSection({ children, delay = 0 }) {
   const [isVisible, setVisible] = useState(false);
@@ -46,7 +47,7 @@ function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(false)
   const [currentWord, setCurrentWord] = useState('Developer');
-  const words = ['Developer', 'Cristão','Criador', 'Inovador'];
+  const words = ['Desenvolvedor', 'Cristão','Criativo', 'Inovador'];
   let wordIndex = 0;
   let charIndex = 0;
   let isDeleting = false;
@@ -63,24 +64,54 @@ function App() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [activeTech, setActiveTech] = useState(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [currentSkillIndex, setCurrentSkillIndex] = useState(0);
-
+  const [currentSkillIndex, setCurrentSkillIndex] = useState(2);
+  
   const skillsList = {
+    iot: {
+      name: "Integrated Solutions with IoT Course",
+      duracao: "2 meses (2023)",
+      description: "Aprendi como enviar um código C++ para a nuvem para controlar o ESP32.",
+    },
+    google: {
+      name: "Google Cloud Computing",
+      duracao: "1 mês (2021)",
+      description:
+        "Neste curso, aprendi sobre computação em nuvem, gerenciamento de recursos na nuvem, e como utilizar o Google Cloud Platform para hospedar aplicações.",
+    },
     ads_senai: {
       name: "Análise e Desenvolvimento de Sistemas",
-      description: "Estudei por 5 dias no senai"
+      duracao: "2 anos (2022 a 2024)",
+      description:
+        "Desenvolvi habilidades em lógica de programação, React Native, HTML, CSS, JavaScript, Python. Aprendi modelagem de software, Scrum Master, MySQL, e os padrões MVC e MVP, além de Back-End com Node.js.",
     },
-    IoT: {
-      name: "Integrated Solutions with IoT Course",
-      description: "Estudei por 5 dias no senai"
+    sesi: {
+      name: "Ensino Médio Completo - Sesi 423",
+      duracao: "Ano completo (Data de conclusão)",
+      description:
+        "Desenvolvi habilidades em robótica e eletroeletrônica, trabalhando com Raspberry Pi e Arduino, por fazer parte do curso técnico do Sesi.",
     },
-    Google: {
-      name: "Google Cloud Computing ",
-      description: "Estudei por 5 dias no senai"
+    udemy: {
+      name: "Cursos da Udemy",
+      duracao: "Data de conclusão variada",
+      description:
+        "Realizei diversos cursos na Udemy, onde aprendi Java, Node, Python, SQL, JavaScript, React Web, Electron, entre outros tópicos essenciais para o desenvolvimento de software.",
+    },
+  };
+
+  const skillsArray = Object.values(skillsList);
+
+  const nextSkill = () => {
+    if (currentSkillIndex < skillsArray.length - 1) {
+      setCurrentSkillIndex(currentSkillIndex + 1);
     }
+  };
 
-  }
-
+  const prevSkill = () => {
+    if (currentSkillIndex > 0) {
+      setCurrentSkillIndex(currentSkillIndex - 1);
+    }
+  };
+  
   const techDescriptions = {
     mysql: {
       name: "MySQL",
@@ -110,6 +141,10 @@ function App() {
       name: "Python",
       description: "Uma linguagem de programação de alto nível, interpretada e de propósito geral."
     },
+    java: {
+      name: "Java",
+      description: "Uma linguagem de programação de alto nível, orientada a objetos, amplamente utilizada para o desenvolvimento de aplicativos móveis, web e empresariais."
+    },    
     linux: {
       name: "Linux",
       description: "Um sistema operacional de código aberto baseado em Unix."
@@ -117,39 +152,50 @@ function App() {
     arduino: {
       name: "Arduino",
       description: "Uma plataforma de prototipagem eletrônica de código aberto."
+    },
+    raspberry: {
+      name: "Raspberry Pi",
+      description: "Um computador de placa única de baixo custo, amplamente utilizado em projetos de eletrônica e programação."
     }
   };
 
   useEffect(() => {
-    // Add 'no-scroll' class to body when component mounts
-    document.body.classList.add('no-scroll');
-
+    // Desabilita overflow-y no html no início
+    document.documentElement.style.overflowY = 'hidden';
+  
     // Verifica a preferência do sistema
-    const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
-    setIsDarkMode(prefersDarkMode)
-    
+    const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setIsDarkMode(prefersDarkMode);
+  
     // Aplica o modo escuro se necessário
     if (prefersDarkMode) {
-      document.body.classList.add('dark-mode')
+      document.body.classList.add('dark-mode');
     }
-
-    // Loading screen timer with progress
+  
+    // Loading screen timer com progresso
     const interval = setInterval(() => {
-      setLoadingProgress(prev => {
+      setLoadingProgress((prev) => {
         if (prev >= 100) {
+          // Mantém overflow-y desabilitado até que o carregamento termine
+          document.documentElement.style.overflowY = 'hidden';
           clearInterval(interval);
           setTimeout(() => {
             setIsLoading(false);
-            document.body.classList.remove('no-scroll'); // Remove 'no-scroll' class when loading is complete
-          }, 500); // Delay to allow fade-out animation to complete
+            // Habilita overflow-y no html após a conclusão do carregamento
+            document.documentElement.style.overflowY = 'auto';
+          }, 500); // Delay para permitir animação de fade-out
           return 100;
         }
         return prev + 20;
       });
     }, 300);
-
-    return () => clearInterval(interval);
-  }, [])
+  
+    return () => {
+      // Cleanup: garante que overflow-y seja restaurado
+      clearInterval(interval);
+      document.documentElement.style.overflowY = 'auto';
+    };
+  }, []);  
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode)
@@ -337,35 +383,42 @@ function App() {
   }, []);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    const formData = new FormData();
-    formData.append('name', contactName);
-    formData.append('email', contactEmail);
-    formData.append('subject', contactSubject);
-    formData.append('message', contactMessage);
+      e.preventDefault();
 
-    try {
-      const response = await fetch('https://seudominio.com/send_email.php', {
-        method: 'POST',
-        body: formData,
-      });
+      const contactData = {
+          nome: contactName,
+          email: contactEmail,
+          assunto: contactSubject,
+          mensagem: contactMessage,
+      };
 
-      if (response.ok) {
-        const result = await response.text();
-        alert(result);
-        // Reset form fields
-        setContactName('');
-        setContactEmail('');
-        setContactSubject('');
-        setContactMessage('');
-      } else {
-        throw new Error('Erro ao enviar mensagem');
+      try {
+          const response = await fetch('https://otavig-contato.onrender.com/api/entrar-contato', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(contactData),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+              alert('Mensagem enviada com sucesso!');
+              // Limpar os campos
+              setContactName('');
+              setContactEmail('');
+              setContactSubject('');
+              setContactMessage('');
+              
+              setIsContactModalOpen(false);
+          } else {
+              alert(`Erro: ${data.message}`);
+          }
+      } catch (error) {
+          console.error('Erro ao enviar mensagem:', error);
+          alert('Erro ao enviar a mensagem');
       }
-    } catch (error) {
-      console.error('Erro:', error);
-      alert('Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente.');
-    }
   };
 
   const openContactModal = () => {
@@ -398,14 +451,6 @@ function App() {
     };
   }, []);
 
-  const nextSkill = () => {
-    setCurrentSkillIndex((prevIndex) => (prevIndex + 1) % Object.entries(skillsList).length);
-  };
-
-  const prevSkill = () => {
-    setCurrentSkillIndex((prevIndex) => (prevIndex - 1 + Object.entries(skillsList).length) % Object.entries(skillsList).length);
-  };
-
   return (
     <>
       {isLoading && (
@@ -428,7 +473,6 @@ function App() {
             </div>
           <div className="navb-items">
             <div className="item"><a href="#about">Sobre</a></div>
-            <div className="item"><a href="#skills">Habilidades</a></div>
             <div className="item"><a href="#projects">Projetos</a></div>
             <div className="item-button"><a href="#" onClick={(e) => { e.preventDefault(); openContactModal(); }}>Contato</a></div>
           </div>
@@ -500,7 +544,7 @@ function App() {
         </section>
       </FadeInSection>
       <FadeInSection delay={200}>
-        <section className="section-2" id="about" ref={aboutRef} style={{marginTop: '12%'}}>
+        <section className="section-2" id="about" ref={aboutRef} style={{ marginTop: '12%' }}>
           <div className="character-bubble">
             <img src="/src/assets/imgs/extras/icon_paint.png" alt="Person" />
           </div>
@@ -509,63 +553,105 @@ function App() {
               <div className="tech-stack-container">
                 <div className="tech-stack">
                   <div className="tech-row">
-                    <div className="tech-item" onMouseEnter={() => handleTechMouseEnter('mysql')} onMouseLeave={handleTechMouseLeave}><img src="/src/assets/imgs/icons-stack/mysql.png" alt="MySQL" /></div>
-                    <div className="tech-item" onMouseEnter={() => handleTechMouseEnter('node')} onMouseLeave={handleTechMouseLeave}><img src="/src/assets/imgs/icons-stack/node.png" alt="Node.js" /></div>
-                    <div className="tech-item" onMouseEnter={() => handleTechMouseEnter('js')} onMouseLeave={handleTechMouseLeave}><img src="/src/assets/imgs/icons-stack/js.png" alt="JavaScript" /></div>
+                    <div className="tech-item" onMouseEnter={() => handleTechMouseEnter('mysql')} onMouseLeave={handleTechMouseLeave}>
+                      <img src="/src/assets/imgs/icons-stack/mysql.png" alt="MySQL" />
+                    </div>
+                    <div className="tech-item" onMouseEnter={() => handleTechMouseEnter('node')} onMouseLeave={handleTechMouseLeave}>
+                      <img src="/src/assets/imgs/icons-stack/node.png" alt="Node.js" />
+                    </div>
+                    <div className="tech-item" onMouseEnter={() => handleTechMouseEnter('python')} onMouseLeave={handleTechMouseLeave}>
+                      <img src="/src/assets/imgs/icons-stack/python.png" alt="Python" />
+                    </div>
+                    <div className="tech-item" onMouseEnter={() => handleTechMouseEnter('java')} onMouseLeave={handleTechMouseLeave}>
+                      <img src="/src/assets/imgs/icons-stack/java.png" alt="Java" />
+                    </div>
                   </div>
                   <div className="tech-row">
-                    <div className="tech-item" onMouseEnter={() => handleTechMouseEnter('react')} onMouseLeave={handleTechMouseLeave}><img src="/src/assets/imgs/icons-stack/react.png" alt="React" /></div>
-                    <div className="tech-item" onMouseEnter={() => handleTechMouseEnter('html')} onMouseLeave={handleTechMouseLeave}><img src="/src/assets/imgs/icons-stack/html.png" alt="HTML" /></div>
-                    <div className="tech-item" onMouseEnter={() => handleTechMouseEnter('css')} onMouseLeave={handleTechMouseLeave}><img src="/src/assets/imgs/icons-stack/css.png" alt="CSS" /></div>
-                  </div>  
+                    <div className="tech-item" onMouseEnter={() => handleTechMouseEnter('react')} onMouseLeave={handleTechMouseLeave}>
+                      <img src="/src/assets/imgs/icons-stack/react.png" alt="React" />
+                    </div>
+                    <div className="tech-item" onMouseEnter={() => handleTechMouseEnter('js')} onMouseLeave={handleTechMouseLeave}>
+                      <img src="/src/assets/imgs/icons-stack/js.png" alt="JavaScript" />
+                    </div>
+                    <div className="tech-item" onMouseEnter={() => handleTechMouseEnter('html')} onMouseLeave={handleTechMouseLeave}>
+                      <img src="/src/assets/imgs/icons-stack/html.png" alt="HTML" />
+                    </div>
+                    <div className="tech-item" onMouseEnter={() => handleTechMouseEnter('css')} onMouseLeave={handleTechMouseLeave}>
+                      <img src="/src/assets/imgs/icons-stack/css.png" alt="CSS" />
+                    </div>
+                  </div>
                   <div className="tech-row">
-                    <div className="tech-item" onMouseEnter={() => handleTechMouseEnter('python')} onMouseLeave={handleTechMouseLeave}><img src="/src/assets/imgs/icons-stack/python.png" alt="Python" /></div>
-                    <div className="tech-item" onMouseEnter={() => handleTechMouseEnter('linux')} onMouseLeave={handleTechMouseLeave}><img src="/src/assets/imgs/icons-stack/linux.png" alt="LINUX" /></div>
-                    <div className="tech-item" onMouseEnter={() => handleTechMouseEnter('arduino')} onMouseLeave={handleTechMouseLeave}><img src="/src/assets/imgs/icons-stack/arduino.png" alt="ARDUINO" /></div>
+                    <div className="tech-item" onMouseEnter={() => handleTechMouseEnter('linux')} onMouseLeave={handleTechMouseLeave}>
+                      <img src="/src/assets/imgs/icons-stack/linux.png" alt="Linux" />
+                    </div>
+                    <div className="tech-item" onMouseEnter={() => handleTechMouseEnter('arduino')} onMouseLeave={handleTechMouseLeave}>
+                      <img src="/src/assets/imgs/icons-stack/arduino.png" alt="Arduino" />
+                    </div>
+                    <div className="tech-item" onMouseEnter={() => handleTechMouseEnter('raspberry')} onMouseLeave={handleTechMouseLeave}>
+                      <img src="/src/assets/imgs/icons-stack/raspberry.png" alt="RaspBerry" />
+                    </div>
                   </div>
                 </div>
               </div>
               <div className="about-text-container">
                 <p className="about-text">
-                  <sup className='aspas'>❝</sup><span className='span_maisculo'>D</span>esenvolvedor <span className='special_span'>Full-Stack</span> com ênfase em <span className='special_span'>Back-End</span>, especializado em <span className='special_span'>MySQL</span>. Experiência em desenvolvimento web e mobile, com foco em arquiteturas de servidor e bancos de dados. Apaixonado por <span className='special_span'>SQL</span> e sistemas escaláveis. Inspirado pela Bíblia e xadrez. Acabo lidando com o front-end muito bem, mas minha verdadeira paixão é criar os alicerces sólidos que sustentam aplicações poderosas.<span className='aspas'>❞</span>
+                  "Desenvolvedor Full-Stack com conhecimentos em MySQL e especializado em Node.js, buscando aprender cada vez mais sobre Java. Tenho experiência em front-end e uma verdadeira paixão por criar sistemas escaláveis e de alto desempenho, com foco em arquiteturas de servidor e otimização de bancos de dados. Inspirado pela Bíblia e apaixonado por Cristo, busco sempre viver com virtude e integridade, aplicando esses princípios em meu trabalho e na vida. Minha verdadeira paixão é construir as bases sólidas que sustentam aplicações poderosas e de impacto."
                 </p>
               </div>
             </div>
           </div>
         </section>
       </FadeInSection>
+
       <FadeInSection delay={300}>
-        <section className='download-section'>
-          <div className='download-container'>
-            <a 
-              download="./assets/curriculo.pdf"
-              className='download-button'
-            >
-              <i className="bi bi-download"></i> Currículo
-            </a>
-          </div>
-        </section>
-      </FadeInSection>
-      <FadeInSection delay={400}>
         <section className="section-4" id="skills">
           <div className="skills-slider">
-            <div className="skills-carousel">
-              <button onClick={prevSkill} className="carousel-button">Anterior</button>
-              <div className="skill-card" style={{ display: 'block' }}>
-                <h3>{Object.values(skillsList)[currentSkillIndex].name}</h3>
-                <p>{Object.values(skillsList)[currentSkillIndex].description}</p>
-              </div>
-              <button onClick={nextSkill} className="carousel-button">Próximo</button>
+            <button
+              onClick={prevSkill}
+              className="carousel-button carousel-button-prev"
+              aria-label="Anterior"
+              disabled={currentSkillIndex === 0}
+            >
+              <FaChevronLeft /> {/* Ícone de seta para a esquerda */}
+            </button>
+            <div
+              className="skills-carousel"
+              style={{
+                transform: `translateX(-${currentSkillIndex * 100}%)`,
+              }}
+            >
+              {skillsArray.map((skill, index) => (
+                <div
+                  key={index}
+                  className={`skill-card ${
+                    index === currentSkillIndex ? "active" : ""
+                  }`}
+                >
+                  <h3>{skill.name}</h3>
+                  <p>{skill.description}</p>
+                  <div className="duration">{skill.duracao}</div>
+                </div>
+              ))}
             </div>
+            <button
+              onClick={nextSkill}
+              className="carousel-button carousel-button-next"
+              aria-label="Próximo"
+              disabled={currentSkillIndex === skillsArray.length - 1}
+            >
+              <FaChevronRight /> {/* Ícone de seta para a direita */}
+            </button>
           </div>
         </section>
       </FadeInSection>
+
+
             {activeTech && (
         <div 
           className={`tech-description-card ${activeTech ? 'active' : ''}`}
           style={{
             position: 'fixed',
-            left: `${mousePosition.x + 180}px`,
+            left: `${mousePosition.x + 150}px`,
             top: `${mousePosition.y + 15}px`,
             zIndex: 1000,
           }}
@@ -579,21 +665,29 @@ function App() {
           <div className='container-projects-card' style={{marginTop: '5%', marginBottom: '10%'}}>
             <h2 className="section-title">Projetos Principais</h2>
             <div className="projects-grid">
+            <ProjectCard 
+                title="Termo Infinity"
+                description="Jogo de palavras onde o objetivo é descobrir a palavra oculta em poucas tentativas, com feedback sobre as letras corretas. Desenvolvido em Node."
+                image="/src/assets/imgs/projects/termo/termo.png"
+                demoLink="https://otavig.onrender.com/termo-infinity"
+                githubLink="https://github.com/Otavig/Termo-infinity"
+                delay={100}
+              />
               <ProjectCard 
                 title="PDAgame"
                 description="Um jogo de tabuleiro com tema central a educação sobre a água com sistemas de Node.js, com banco de dados. com sistema de acesso e intranet. (Desenvolvido em 5 dias)"
-                image="/src/assets/imgs//projects/pda_game/1.png"
+                image="/src/assets/imgs//projects/pda_game/pda.png"
                 demoLink="https://pd-agame.vercel.app/"
                 githubLink="https://github.com/Otavig/PDA_Game?tab=readme-ov-file"
-                delay={100}
+                delay={200}
               />
               <ProjectCard 
                 title="Midia Indoor"
                 description=" O projeto visa criar uma solução completa que permita a exibição de anúncios, informações e entretenimento em telas localizadas em locais estratégicos."
-                image="/src/assets/imgs/projects/midia_indoor/1.png"
+                image="/src/assets/imgs/projects/midia_indoor/midia_indoor.png"
                 demoLink="https://projectmidia-git-main-otavigs-projects.vercel.app/#"
                 githubLink="https://github.com/Otavig/MidiaIndoor"
-                delay={200}
+                delay={300}
               />
               <ProjectCard 
                 title="PejoAPP"
@@ -601,20 +695,13 @@ function App() {
                 image="/src/assets/imgs/projects/pejoapp/1.png"
                 githubLink="https://github.com/Otavig/PEJOAPP"
                 noDemoLink={true}
-                delay={300}
-              />
-              <ProjectCard 
-                title="PokeAPI"
-                description="Descrição resumida do projeto 2. Destaque os pontos mais interessantes e relevantes do seu trabalho."
-                image="/src/assets/imgs/projects/pokeapi/1.png"
-                demoLink="https://pokedex-otavig.vercel.app/"
-                githubLink="https://github.com/Otavig/PokeAPI"
                 delay={400}
               />
+
                 <ProjectCard 
                 title="PointCircle"
                 description="Um jogo interativo desenvolvido para cativar crianças e introduzi-las ao desenvolvimento de jogos. (Desenvolvido em 1 dias)"
-                image="/src/assets/imgs//projects/pointcircle/1.jpg"
+                image="/src/assets/imgs//projects/pointcircle/point.png"
                 demoLink="https://point-circle.vercel.app/"
                 githubLink="https://github.com/Otavig/PointCircle"
                 delay={500}
@@ -634,7 +721,7 @@ function App() {
       </FadeInSection>
       <footer className="site-footer">
         <div className="footer-content">
-          <p>Desenvolvido por Otávio Garcia ultilizando React</p>
+          <p style={{color: 'white'}}>Desenvolvido por Otávio Garcia</p>
         </div>
       </footer>
       <button 
@@ -709,7 +796,7 @@ function ProjectCard({ title, description, image, demoLink, githubLink, noDemoLi
           <p>{description}</p>
           <div className="project-buttons">
             {!noDemoLink && (
-              <a href={demoLink} target="_blank" rel="noopener noreferrer" className="btn btn-demo">Acessar Exemplo</a>
+              <a href={demoLink} target="_blank" rel="noopener noreferrer" className="btn btn-demo">Acessar Demo</a>
             )}
             <a href={githubLink} target="_blank" rel="noopener noreferrer" className="btn btn-github">GitHub</a>
           </div>

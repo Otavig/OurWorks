@@ -1,0 +1,152 @@
+/* Reset e estilos globais */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  scroll-behavior: smooth;
+}
+
+/* Adiciona um padding superior ao conteúdo principal */
+main {
+  padding-top: 70px; /* Para telas maiores */
+}
+
+/* Seções */
+section {
+  padding: 50px;
+  /* border: 1px solid #ccc; */
+}
+
+section#teaser {
+  height: 80vh;
+  width: 100vw;
+  margin: 20px 0;
+}
+
+section#about {
+  height: 90vh;
+  margin: 20px 0;
+  border-bottom: 10px solid #64d6f4;
+}
+
+section#projects {
+  height: 120vh;
+  width: 100vw;
+  margin: 20px 0;
+}
+
+section#contact {
+  height: 30vh;
+  width: 100vw;
+}
+
+#particleCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+/* Ajuste para dispositivos móveis */
+@media (max-width: 768px) {
+    main {
+      padding-top: 0; /* Remove o padding-top para dispositivos móveis */
+    }
+
+    section {
+      padding: 20px; /* Ajuste de padding para telas menores */
+    }
+
+    section#about {
+        height: 140vh;
+    }
+
+    section#projects {
+      height: 360vh;
+      width: 100vw;
+    }
+
+    section#contact {
+      height: 50vh;
+      width: 100vw;
+    }
+
+    #particleCanvas {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+/* Ajuste para dispositivos com telas ainda menores */
+@media (max-width: 480px) {
+    main {
+      padding-top: 10px; /* Adiciona um pequeno padding-top para telas ainda menores */
+    }
+
+    section {
+      padding: 15px; /* Ajusta o padding para telas muito pequenas */
+    }
+
+    section#about {
+        height: 220vh; /* Ajusta a altura para telas muito pequenas */
+    }
+
+    #particleCanvas {
+        width: 100%;
+        height: 100%;
+    }
+
+    h1 {
+      font-size: 1.5rem; /* Reduz o tamanho da fonte do título */
+    }
+
+    nav a {
+      font-size: 0.9rem; /* Reduz o tamanho da fonte dos links de navegação */
+    }
+
+    section#contact {
+      height: 50vh;
+      width: 100vw;
+    }
+
+    section#projects {
+      height: 500vh;
+      width: 100vw;
+    }
+}
+
+@media (max-width: 360px) {
+  section#about {
+      height: 210vh; /* Ajusta a altura para telas muito pequenas */
+  }
+
+  #particleCanvas {
+      width: 100%;
+      height: 100%;
+  }
+
+  section#contact {
+    height: 55vh;
+    width: 100vw;
+  }
+
+  section#projects {
+    height: 540vh;
+    width: 100vw;
+  }
+}

@@ -1,0 +1,84 @@
+/* Cabeçalho fixo */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 40px; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: transparent;  
+    backdrop-filter: blur(8px);  
+    transition: background 0.3s ease-in-out, padding 0.3s, box-shadow 0.3s ease;  
+    color: white;
+    z-index: 1000;
+    font-family: 'Poppins', sans-serif;  /* Font family mais moderna e elegante */
+}
+
+/* Estilo quando o cabeçalho rolar */
+.header.scrolled {
+    background: rgba(0, 0, 0, 0.9);
+    padding: 15px 40px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Sombra mais forte ao rolar */
+}
+
+/* Título */
+.header h1 {
+    font-size: 28px; 
+    font-weight: 700;  
+    letter-spacing: 2px; 
+    transition: font-size 0.3s ease, transform 0.3s ease;  
+}
+  
+.header h1:hover {
+    color: #64d6f4; /* Cor ciano */
+}
+  
+
+/* Links de navegação */
+.header nav a {
+    color: #ffffff; 
+    text-decoration: none;
+    margin-left: 40px;  
+    font-size: 18px;  
+    font-weight: 500;  
+    transition: color 0.3s ease, transform 0.3s ease, letter-spacing 0.3s ease; 
+}
+
+.header nav a:hover {
+    color: #64d6f4;  
+    transform: translateY(-5px);  
+    letter-spacing: 2px;  
+}
+
+/* Ajustes para dispositivos móveis */
+@media (max-width: 768px) {
+    .header {
+        bottom: 0;  
+        background: rgba(0, 0, 0, 0.9);
+        top: auto;
+        padding: 20px 20px;  
+        justify-content: center; 
+        box-shadow: none;  
+    }
+
+    /* Título */
+    .header h1 {
+        width: 50%;
+        font-size: 18px;
+        text-align: center;
+    }
+
+    /* Links de navegação */
+    .header nav a {
+        font-size: 16px;
+        margin-left: 20px;  
+    }
+
+    .header.scrolled {
+        background: rgba(0, 0, 0, 0.9); /* Manter o fundo */
+        padding-bottom: 40px;
+        box-shadow: none; /* Remover a sombra */
+    }
+}

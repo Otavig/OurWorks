@@ -1,0 +1,258 @@
+/* components/Teaser.css */
+#teaser {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 4vw; /* Reduzido para ajustar melhor */
+  border-radius: 8px;
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.teaser-text {
+  flex: 1;
+  max-width: 50%; /* Reduzido para mais espaço */
+}
+
+.teaser-text h2 {
+  font-size: 2vw; /* Reduzido */
+  margin-bottom: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  max-width: 100%;
+}
+
+.teaser-text p {
+  font-size: 1.2rem; /* Reduzido */
+  margin-bottom: 1.5rem; /* Menor margem */
+  max-width: 80%;
+  opacity: 0;
+  animation: fadeInText 0.5s 1s forwards;
+}
+
+@keyframes fadeInText {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes blink-caret {
+  50% {
+    border-color: transparent;
+  }
+}
+
+.social-icons {
+  display: flex;
+  gap: 1.2rem; /* Menor espaçamento */
+  font-size: 1.5rem; /* Reduzido */
+  transition: transform 0.3s ease-in-out;
+  flex-wrap: wrap;
+}
+
+.social-icons a {
+  color: white;
+  transition: color 0.3s, transform 0.3s ease-in-out;
+}
+
+.social-icons a:hover {
+  color: #64d6f4;
+  animation: giradinha 0.5s ease forwards;
+}
+
+@keyframes giradinha {
+  0% {
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.teaser-image {
+  background-color: #64d6f4;
+  border-radius: 30px;
+  padding: 10%;
+  height: 18vh; /* Menor altura */
+  width: 25vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.teaser-image img {
+  filter: saturate(0);
+  width: 57vw;
+  height: 57vh;
+}
+
+.junior-tag {
+  display: inline-block;
+  background: linear-gradient(45deg, #64d6f4, #1e90ff);
+  color: white;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 18px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 10px 0;
+  user-select: none;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.junior-tag:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 1300px) {
+  .teaser-image {
+    background-color: #64d6f4;
+    border-radius: 30px;
+    padding: 10%;
+    height: 18vh; /* Menor altura */
+    width: 25vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .teaser-image img {
+    filter: saturate(0);
+    width: 40vw;
+    height: 40vh;
+  }
+}
+
+@media (max-width: 768px) {
+  #teaser {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .teaser-text {
+    margin-top: 16vh;
+    max-width: 90%;
+    text-align: center;
+    padding-right: 0;
+    margin-bottom: 1.5rem;
+  }
+
+  .social-icons {
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .teaser-text h2 {
+    font-size: 5vw;
+  }
+
+  .teaser-text p {
+    font-size: 0.9rem;
+    max-width: 100%;
+  }
+
+  .teaser-image {
+    padding: 10%;
+    height: 18vh; /* Menor altura */
+    width: 60vw;
+    margin-bottom: 150px;
+  }
+
+  .teaser-image img {
+    width: 70vw;
+    height: 30vh;
+  }
+
+  .junior-tag {
+    font-size: 16px; 
+    padding: 6px 12px; 
+    margin: 8px 0; 
+  }
+}
+
+@media (max-width: 480px) {
+  .teaser-text h2 {
+    font-size: 5.5vw; /* Reduzido */
+  }
+
+  .teaser-text p {
+    font-size: 0.9rem; /* Menor */
+  }
+
+  .social-icons {
+    gap: 0.8rem;
+    font-size: 1.3rem;
+  }
+
+  .junior-tag {
+    font-size: 10px; 
+    padding: 5px 5px;
+    margin: 6px 0; 
+  }
+
+  .teaser-image {
+    padding: 10%;
+    height: 18vh; /* Menor altura */
+    width: 60vw;
+    margin-bottom: 60px;
+  }
+
+  .teaser-image img {
+    width: 70vw;
+    height: 30vh;
+  }
+}
+
+@media (max-width: 360px) {
+  .teaser-text h2 {
+    font-size: 5.5vw; /* Reduzido */
+  }
+
+  .teaser-text p {
+    font-size: 1rem; /* Menor */
+  }
+
+  .social-icons {
+    gap: 0.8rem;
+    font-size: 1.3rem;
+  }
+
+  .junior-tag {
+    font-size: 10px; 
+    padding: 5px 5px;
+    margin: 6px 0; 
+  }
+
+  .teaser-image {
+    padding: 10%;
+    height: 18vh; /* Menor altura */
+    width: 60vw;
+    margin-bottom: 60px;
+  }
+
+  .teaser-image img {
+    width: 70vw;
+    height: 30vh;
+  }
+}

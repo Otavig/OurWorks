@@ -1,0 +1,126 @@
+#contact {
+  padding: 80px 20px;
+  text-align: center;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.6); /* Fundo semitransparente */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 40px;
+}
+
+.contact-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap; /* Garante que o layout se ajuste em telas pequenas */
+  gap: 20px;
+}
+
+.contact-info {
+  max-width: 600px;
+  text-align: left;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.7); /* Fundo semitransparente */
+}
+
+#contact h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+#contact p {
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+
+.email-link {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #64d6f4; /* Cor ciano */
+  text-decoration: none;
+}
+
+.email-link:hover {
+  color: #2fadcc;
+  text-decoration: underline;
+}
+
+.contact-image img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 4px solid #fff; /* Borda branca ao redor da imagem */
+}
+
+footer {
+  margin-top: 40px;
+  font-size: 0.8rem;
+  text-align: center;
+  color: white;
+}
+
+footer p {
+  margin: 10px 0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  #contact {
+    padding: 60px 20px;
+  }
+
+  .contact-container {
+    flex-direction: column; /* Empilha os elementos na vertical */
+    gap: 30px;
+  }
+
+  .contact-info {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .contact-image img {
+    width: 120px;
+    height: 120px;
+  }
+
+  #contact h2 {
+    font-size: 1.8rem;
+  }
+
+  .email-link {
+    font-size: 1rem;
+  }
+
+  #contact p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #contact {
+    padding: 50px 20px;
+  }
+
+  .contact-info {
+    padding: 15px;
+  }
+
+  .contact-image img {
+    width: 100px;
+    height: 100px;
+  }
+
+  #contact h2 {
+    font-size: 1.6rem;
+  }
+
+  .email-link {
+    font-size: 0.9rem;
+  }
+
+  #contact p {
+    font-size: 0.8rem;
+  }
+}
